@@ -8,12 +8,15 @@
 
 import UIKit
 
-
+protocol XMScorllViewDelegate:NSObjectProtocol{
+    func clickCell(view:XMScorllView,object:XMScrollObject)
+}
 class XMScorllView: UIView {
 
     @IBOutlet var pageConrol: UIPageControl!
     @IBOutlet var collectionView: UICollectionView!
     var timer:NSTimer?
+  weak var delegate:XMScorllViewDelegate?
     var scorllArray :[AnyObject] = []{
         willSet{
             if newValue.count == 1{
@@ -82,8 +85,11 @@ extension XMScorllView:UICollectionViewDelegate,UICollectionViewDataSource,UICol
         cell.object = scorllArray[indexPath.item % scorllArray.count] as! XMScrollObject
         return cell
     }
+    func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+       let object  = scorllArray[indexPath.item % scorllArray.count] as! XMScrollObject
+        delegate?.clickCell(self, object: object)
+    }
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAtIndex section: Int) -> UIEdgeInsets{
-    
         return UIEdgeInsetsMake(0, 0, 0, 0)
     }
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize{

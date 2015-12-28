@@ -14,7 +14,7 @@ class XMScrollCollectionCell: UICollectionViewCell {
     @IBOutlet var image: UIImageView!
     var object:XMScrollObject! {
         willSet{
-           image.image = UIImage.init(named: newValue.imageName!)
+           image.xm_setImageViewString(newValue.imageName!)
            nameLabel.text = newValue.name
         }
     }
